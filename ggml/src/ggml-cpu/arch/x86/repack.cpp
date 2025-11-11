@@ -64,15 +64,6 @@ static inline __m512 __avx512_repeat_f32cx16_load(__m128i x) {
     return _mm512_loadu_ps(tmp);
 }
 #endif
-static inline __m256 __avx_f32cx8_load(ggml_fp16_t *x) {
-    float tmp[8];
-
-    for (int i = 0; i < 8; i++) {
-        tmp[i] = GGML_CPU_FP16_TO_FP32(x[i]);
-    }
-
-    return _mm256_loadu_ps(tmp);
-}
 static inline __m256 __avx_repeat_f32cx8_load(ggml_fp16_t *x) {
     float tmp[8];
 
@@ -95,7 +86,6 @@ static inline __m256 __avx_rearranged_f32cx8_load(ggml_fp16_t *x, __m128i arrang
     return _mm256_loadu_ps(tmp);
 }
 
-#define GGML_F32Cx8_LOAD(x)     __avx_f32cx8_load(x)
 #define GGML_F32Cx8_REPEAT_LOAD(x, loadMask)     __avx_repeat_f32cx8_load(x)
 #define GGML_F32Cx8_REARRANGE_LOAD(x, arrangeMask)     __avx_rearranged_f32cx8_load(x, arrangeMask)
 #if defined(__AVX512F__)
